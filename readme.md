@@ -4,6 +4,7 @@
 
 ## How to play
 *Trail Breaker* is a **1v1 snake game.**  
+
 **P1:** Z, Q, S, D  
 **P2:** Arrow Keys  
 
@@ -18,4 +19,5 @@ We had a whole night to create a Brick game, using only native javascript.
 * Mahel: https://github.com/M00NBOY
 * Théodore: https://github.com/yip-theodore
 * Christella: *link*  
-and Xavier
+
+and Xavier.
