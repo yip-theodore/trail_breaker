@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,9 +18,11 @@
       line-height: 2;
       overflow-y: hidden;
     }
+
     .X {
       display: flex;
     }
+
     .Y {
       width: 14px;
       height: 14px;
@@ -28,29 +31,38 @@
       margin: 8px;
       transition: all .15s ease-out;
     }
-    .active1,.active2,.pom {
+
+    .active1,
+    .active2,
+    .pom {
       width: 22px;
       height: 22px;
       margin: 4px;
     }
+
     .active1 {
       background: yellow;
     }
+
     .active2 {
       background: cyan;
     }
+
     .active1.active2 {
       background-color: #fff;
     }
+
     .Yend {
       width: 0;
       height: 0;
       border-radius: 20px;
       margin: 15px;
     }
+
     .pom {
       background: #fff;
     }
+
     .game {
       display: none;
       height: 100%;
@@ -58,20 +70,26 @@
       justify-content: center;
       align-items: center;
     }
-    .title,.winner,.pressSpace {
+
+    .title,
+    .winner,
+    .pressSpace {
       position: absolute;
       right: 0;
       left: 0;
       transition: all .25s ease-in-out;
     }
+
     .title {
       opacity: 1;
       top: 30vh;
     }
+
     .winner {
       opacity: 0;
       top: 30vh;
     }
+
     .pressSpace {
       opacity: 1;
       top: 60vh;
@@ -82,446 +100,6 @@
 
 <body class="body">
   <div class="game">
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
-    <div class="X">
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-      <div class="Y"></div>
-    </div>
   </div>
 
   <!-- ECRAN D'ACCUEIL -->
@@ -531,28 +109,39 @@
 
   <!-- SCRIPT - - - - - - - - - - - - - - - - - - - - - - - -->
   <script type="text/javascript">
-
     // VARIABLE POUR AFFICHAGE ECRAN ACCUEIL/RESULTAT
     var game = document.querySelector('.game');
     var title = document.querySelector('.title');
     var winner = document.querySelector('.winner');
     var space = document.querySelector('.pressSpace');
-    //COORDONNEES DE LA GRILLE
+
+    // Création de la grille
+    var grillHeight = 25; //Hauteur de la grille
+    var grillWidth = 25; // Largeur de la grille
+    for (var i = 0; i < grillHeight; i++) {
+      game.innerHTML += "<div class='X'></div>";
+    }
     var tabX = document.querySelectorAll('.X');
+    for (var i = 0; i < tabX.length; i++) {
+      for (var i2 = 0; i2 < grillWidth; i2++) {
+        tabX[i].innerHTML += "<div class='Y'></div>";
+      }
+    }
     var tabY = document.querySelectorAll('.Y');
+
 
     // VARIABLES DE DEPART
     var maxLengthBASE = 5; //Taille de départ
     var active1 = document.querySelectorAll('.active1');
     var X1 = 4;
     var Y1 = 0;
-    var save1 = [tabY[Y1 + X1 * tabX.length]];
+    var save1 = [tabY[Y1 + X1 * (tabY.length / tabX.length)]];
     var maxLength1 = maxLengthBASE;
     var dir1 = 'right';
     var active2 = document.querySelectorAll('.active2');
-    var X2 = 15;
-    var Y2 = 19;
-    var save2 = [tabY[Y2 + X2 * tabX.length]];
+    var X2 = tabX.length - 5;
+    var Y2 = (tabY.length / tabX.length) - 1;
+    var save2 = [tabY[Y2 + X2 * (tabY.length / tabX.length)]];
     var maxLength2 = maxLengthBASE;
     var dir2 = 'left';
     var pomX = 0;
@@ -609,67 +198,68 @@
           limit2 = 1;
         }
       });
+
       // AVANCE
       if (dir1 === 'left') {
-        if (Y1 % 20 == 0) {
-          Y1 += 19;
+        if (Y1 % (tabY.length / tabX.length) == 0) {
+          Y1 += (tabY.length / tabX.length) - 1;
         } else {
           Y1 -= 1;
         }
       }
       if (dir1 === 'right') {
-        if ((Y1 + 1) % 20 == 0) {
-          Y1 -= 19
+        if ((Y1 + 1) % (tabY.length / tabX.length) == 0) {
+          Y1 -= (tabY.length / tabX.length) - 1;
         } else {
           Y1 += 1;
         }
       }
       if (dir1 === 'top') {
         if (X1 === 0) {
-          X1 += 19;
+          X1 += tabX.length - 1;
         } else {
           X1 -= 1;
         }
       }
       if (dir1 === 'bottom') {
-        if (X1 === 19) {
-          X1 -= 19;
+        if (X1 === tabX.length - 1) {
+          X1 -= tabX.length - 1;
         } else {
           X1 += 1;
         }
       }
       //
       if (dir2 === 'left') {
-        if (Y2 % 20 == 0) {
-          Y2 += 19;
+        if (Y2 % (tabY.length / tabX.length) == 0) {
+          Y2 += (tabY.length / tabX.length) - 1;
         } else {
           Y2 -= 1;
         }
       }
       if (dir2 === 'right') {
-        if ((Y2 + 1) % 20 == 0) {
-          Y2 -= 19
+        if ((Y2 + 1) % (tabY.length / tabX.length) == 0) {
+          Y2 -= (tabY.length / tabX.length) - 1;
         } else {
           Y2 += 1;
         }
       }
       if (dir2 === 'top') {
         if (X2 === 0) {
-          X2 += 19;
+          X2 += tabX.length - 1;
         } else {
           X2 -= 1;
         }
       }
       if (dir2 === 'bottom') {
-        if (X2 === 19) {
-          X2 -= 19;
+        if (X2 === tabX.length - 1) {
+          X2 -= tabX.length - 1;
         } else {
           X2 += 1;
         }
       }
       // SAUVEGARDE POSITION ACTUELLE
-      save1.push(tabY[Y1 + X1 * tabX.length]);
-      save2.push(tabY[Y2 + X2 * tabX.length]);
+      save1.push(tabY[Y1 + X1 * (tabY.length / tabX.length)]);
+      save2.push(tabY[Y2 + X2 * (tabY.length / tabX.length)]);
       // UPDATE POSITION TETE
       save1[save1.length - 1].classList.add('head1')
       save2[save2.length - 1].classList.add('head2')
@@ -738,16 +328,16 @@
       if (eat1 !== null) {
         maxLength1 += 2;
         eat1.classList.remove('pom');
-        var pomX = Math.floor(Math.random() * 20);
-        var pomY = Math.floor(Math.random() * 20);
+        var pomX = Math.floor(Math.random() * tabX.length);
+        var pomY = Math.floor(Math.random() * (tabY.length / tabX.length));
         tabY[pomY + pomX * tabX.length].classList.add('pom');
       }
       var eat2 = document.querySelector('.head2.pom');
       if (eat2 !== null) {
         maxLength2 += 2;
         eat2.classList.remove('pom');
-        var pomX = Math.floor(Math.random() * 20);
-        var pomY = Math.floor(Math.random() * 20);
+        var pomX = Math.floor(Math.random() * tabX.length);
+        var pomY = Math.floor(Math.random() * (tabY.length / tabX.length));
         tabY[pomY + pomX * tabX.length].classList.add('pom');
       }
       // ENLEVE TOUT
@@ -784,21 +374,21 @@
         active1 = document.querySelectorAll('.active1');
         X1 = 4;
         Y1 = 0;
-        save1 = [tabY[Y1 + X1 * tabX.length]];
+        save1 = [tabY[Y1 + X1 * (tabY.length / tabX.length)]];
         maxLength1 = maxLengthBASE;
         dir1 = 'right';
         active2 = document.querySelectorAll('.active2');
-        X2 = 15;
-        Y2 = 19;
-        save2 = [tabY[Y2 + X2 * tabX.length]];
+        X2 = tabX.length - 5;
+        Y2 = (tabY.length / tabX.length) - 1;
+        save2 = [tabY[Y2 + X2 * (tabY.length / tabX.length)]];
         maxLength2 = maxLengthBASE;
         dir2 = 'left';
         var pom = document.querySelector('.pom');
         if (pom !== null) {
           pom.classList.remove('pom');
         }
-        pomX = Math.floor(Math.random() * 20);
-        pomY = Math.floor(Math.random() * 20);
+        pomX = Math.floor(Math.random() * tabX.length);
+        pomY = Math.floor(Math.random() * (tabY.length / tabX.length));
         tabY[pomY + pomX * tabX.length].classList.add('pom');
         for (var i = 0; i < tabY.length; i++) {
           tabY[i].style.transitionDuration = '';
@@ -844,4 +434,5 @@
     });
   </script>
 </body>
+
 </html>
