@@ -1,6 +1,7 @@
 <html>
 
 <head>
+  <link rel="stylesheet" href="css/reset.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -95,6 +96,28 @@
       top: 60vh;
       color: #aaa;
     }
+
+    .cheatcode {
+      position: absolute;
+      top: 20px;
+      left: 0;
+      height: 50px;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    .gifContainer {
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      height: 100%;
+      width: 35%;
+    }
+
+    .teamMember {
+      height: 100%;
+    }
   </style>
 </head>
 
@@ -106,6 +129,19 @@
   <p class="title">Trail<br>Breaker</p>
   <p class="winner"></p>
   <p class="pressSpace">Press Space</p>
+
+  <!-- cheat -->
+  <div class="cheatCode">
+    <div class="gifContainer">
+      <img src="img/valentine.gif" alt="valentine" class="teamMember">
+      <img src="img/quentin.gif" alt="quentin" class="teamMember">
+      <img src="img/nicolas.gif" alt="nicolas" class="teamMember">
+      <img src="img/theodore.gif" alt="theodore" class="teamMember">
+      <img src="img/son.gif" alt="son" class="teamMember">
+      <img src="img/mahel.gif" alt="mahel" class="teamMember">
+      <img src="img/christella.gif" alt="christella" class="teamMember">
+    </div>
+  </div>
 
   <!-- SCRIPT - - - - - - - - - - - - - - - - - - - - - - - -->
   <script type="text/javascript">
@@ -129,6 +165,7 @@
     }
     var tabY = document.querySelectorAll('.Y');
 
+    var stopCheat = 0;
 
     // VARIABLES DE DEPART
     var maxLengthBASE = 5; //Taille de départ
@@ -431,6 +468,64 @@
           save2[i2].classList.add('active2');
         }
       }
+      stopCheat = 1;
+    });
+
+    var cheat = document.querySelector('.cheatCode');
+    // cheatCode
+    // 83 // 65 // 85 // 67 // 73 // 83 // 83 // 69
+    var saucisse = 0;
+    window.addEventListener('keyup', function() {
+      if (saucisse != 8) {
+        if (event.which == 83) {
+          if (saucisse == 0 || saucisse == 5 || saucisse == 6) {
+            saucisse += 1;
+          } else {
+            saucisse = 0
+          }
+        } else if (event.which == 65) {
+          if (saucisse == 1) {
+            saucisse += 1;
+          } else {
+            saucisse = 0;
+          }
+        } else if (event.which == 85) {
+          if (saucisse == 2) {
+            saucisse += 1;
+          } else {
+            saucisse = 0;
+          }
+        } else if (event.which == 67) {
+          if (saucisse == 3) {
+            saucisse += 1;
+          } else {
+            saucisse = 0;
+          }
+        } else if (event.which == 73) {
+          if (saucisse == 4) {
+            saucisse += 1;
+          } else {
+            saucisse = 0;
+          }
+        } else if (event.which == 69) {
+          if (saucisse == 7) {
+            saucisse += 1;
+            game.style.display = "none"
+            cheat.style.opacity = '1';
+            title.style.opacity = "0";
+            winner.style.opacity = "1";
+            winner.textContent = 'cheat code activated';
+            winner.style.color = 'red';
+            window.clearInterval(looping);
+            space.style.opacity = "1";
+          } else {
+            saucisse = 0;
+          }
+        } else {
+          saucisse = 0;
+        }
+      }
+
     });
   </script>
 </body>
