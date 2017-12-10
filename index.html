@@ -26,7 +26,7 @@
       background-color: #2a2a2a;
       border-radius: 5px;
       margin: 8px;
-      transition: all .1s ease-out;
+      transition: all .15s ease-out;
     }
     .active1,.active2,.pom {
       width: 22px;
@@ -546,13 +546,13 @@
     var active1 = document.querySelectorAll('.active1');
     var X1 = 4;
     var Y1 = 0;
-    var save1 = [];
+    var save1 = [tabY[Y1 + X1 * tabX.length]];
     var maxLength1 = maxLengthBASE;
     var dir1 = 'right';
     var active2 = document.querySelectorAll('.active2');
     var X2 = 15;
     var Y2 = 19;
-    var save2 = [];
+    var save2 = [tabY[Y2 + X2 * tabX.length]];
     var maxLength2 = maxLengthBASE;
     var dir2 = 'left';
     var pomX = 0;
@@ -775,7 +775,7 @@
         save2[i2].classList.add('active2');
       }
     } //fin de la loop
-    var looping = window.setInterval(loop, 100);
+    var looping = window.setInterval(loop, 150);
     // PRESS SPACE
     window.addEventListener('keyup', function(event) { //BOUTON ESPACE!!!
       if (event.which === 32) {
@@ -784,13 +784,13 @@
         active1 = document.querySelectorAll('.active1');
         X1 = 4;
         Y1 = 0;
-        save1 = [];
+        save1 = [tabY[Y1 + X1 * tabX.length]];
         maxLength1 = maxLengthBASE;
         dir1 = 'right';
         active2 = document.querySelectorAll('.active2');
         X2 = 15;
         Y2 = 19;
-        save2 = [];
+        save2 = [tabY[Y2 + X2 * tabX.length]];
         maxLength2 = maxLengthBASE;
         dir2 = 'left';
         var pom = document.querySelector('.pom');
@@ -831,6 +831,14 @@
         head2 = document.querySelectorAll('.head2');
         for (var i = 0; i < head2.length; i++) {
           head2[i].classList.remove('head2');
+        }
+
+        // COLORIE LE SERPENT
+        for (var i1 = 0; i1 < save1.length; i1++) {
+          save1[i1].classList.add('active1');
+        }
+        for (var i2 = 0; i2 < save2.length; i2++) {
+          save2[i2].classList.add('active2');
         }
       }
     });
