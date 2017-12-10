@@ -1,6 +1,5 @@
 # Trail Breaker
-
-*link*
+https://yip-theodore.github.io/trail_breaker/
 
 ## How to play
 *Trail Breaker* is a **1v1 snake game.**  
@@ -8,7 +7,7 @@
 **P1:** Z, Q, S, D  
 **P2:** Arrow Keys  
 
-## An HETIC Project
+## An *HETIC* Project
 We had a whole night to create a Brick game, using only native javascript.
 
 ### The team
