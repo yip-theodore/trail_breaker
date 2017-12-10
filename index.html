@@ -1,0 +1,839 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Trail Breaker</title>
+  <style media="screen">
+    .body {
+      background: #222;
+      color: #fff;
+      font-family: sans-serif;
+      font-weight: 100;
+      text-transform: uppercase;
+      font-size: .6em;
+      letter-spacing: 20;
+      text-align: center;
+      line-height: 2;
+      overflow-y: hidden;
+    }
+    .X {
+      display: flex;
+    }
+    .Y {
+      width: 14px;
+      height: 14px;
+      background-color: #2a2a2a;
+      border-radius: 5px;
+      margin: 8px;
+      transition: all .1s ease-out;
+    }
+    .active1,.active2,.pom {
+      width: 22px;
+      height: 22px;
+      margin: 4px;
+    }
+    .active1 {
+      background: yellow;
+    }
+    .active2 {
+      background: cyan;
+    }
+    .active1.active2 {
+      background-color: #fff;
+    }
+    .Yend {
+      width: 0;
+      height: 0;
+      border-radius: 20px;
+      margin: 15px;
+    }
+    .pom {
+      background: #fff;
+    }
+    .game {
+      display: none;
+      height: 100%;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .title,.winner,.pressSpace {
+      position: absolute;
+      right: 0;
+      left: 0;
+      transition: all .25s ease-in-out;
+    }
+    .title {
+      opacity: 1;
+      top: 30vh;
+    }
+    .winner {
+      opacity: 0;
+      top: 30vh;
+    }
+    .pressSpace {
+      opacity: 1;
+      top: 60vh;
+      color: #aaa;
+    }
+  </style>
+</head>
+
+<body class="body">
+  <div class="game">
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+    <div class="X">
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+      <div class="Y"></div>
+    </div>
+  </div>
+
+  <!-- ECRAN D'ACCUEIL -->
+  <p class="title">Trail<br>Breaker</p>
+  <p class="winner"></p>
+  <p class="pressSpace">Press Space</p>
+
+  <!-- SCRIPT - - - - - - - - - - - - - - - - - - - - - - - -->
+  <script type="text/javascript">
+
+    // VARIABLE POUR AFFICHAGE ECRAN ACCUEIL/RESULTAT
+    var game = document.querySelector('.game');
+    var title = document.querySelector('.title');
+    var winner = document.querySelector('.winner');
+    var space = document.querySelector('.pressSpace');
+    //COORDONNEES DE LA GRILLE
+    var tabX = document.querySelectorAll('.X');
+    var tabY = document.querySelectorAll('.Y');
+
+    // VARIABLES DE DEPART
+    var maxLengthBASE = 5; //Taille de départ
+    var active1 = document.querySelectorAll('.active1');
+    var X1 = 4;
+    var Y1 = 0;
+    var save1 = [];
+    var maxLength1 = maxLengthBASE;
+    var dir1 = 'right';
+    var active2 = document.querySelectorAll('.active2');
+    var X2 = 15;
+    var Y2 = 19;
+    var save2 = [];
+    var maxLength2 = maxLengthBASE;
+    var dir2 = 'left';
+    var pomX = 0;
+    var pomY = 0;
+    var endAnim = function() {
+      for (var i = 0; i < tabY.length; i++) {
+        tabY[i].style.transitionDuration = '.5s';
+        tabY[i].style.transitionTimingFunction = 'ease-in-out';
+        tabY[i].classList.add('Yend');
+      }
+      document.querySelector('.pom').classList.remove('pom');
+      winner.style.transitionDuration = '1.5s';
+      space.style.transitionDuration = '1.5s';
+    }
+    var loop = function() {
+      var limit1 = 0;
+      var limit2 = 0;
+      // CHANGE DIRECTION
+      //37:Gauche, 38:Haut, 39:Droite, 40:Bas
+      window.addEventListener('keyup', function(event) {
+        if (event.which == 81 && dir1 != 'right' && limit1 == 0) {
+          dir1 = 'left';
+          limit1 = 1;
+        }
+        if (event.which == 68 && dir1 != 'left' && limit1 == 0) {
+          dir1 = 'right';
+          limit1 = 1;
+        }
+        if (event.which == 90 && dir1 != 'bottom' && limit1 == 0) {
+          dir1 = 'top';
+          limit1 = 1;
+        }
+        if (event.which == 83 && dir1 != 'top' && limit1 == 0) {
+          dir1 = 'bottom';
+          limit1 = 1;
+        }
+      });
+      //81:Q, 68:D, 90:Z, 83:S
+      window.addEventListener('keyup', function(event) {
+        if (event.which == 37 && dir2 != 'right' && limit2 == 0) {
+          dir2 = 'left';
+          limit2 = 1;
+        }
+        if (event.which == 39 && dir2 != 'left' && limit2 == 0) {
+          dir2 = 'right';
+          limit2 = 1;
+        }
+        if (event.which == 38 && dir2 != 'bottom' && limit2 == 0) {
+          dir2 = 'top';
+          limit2 = 1;
+        }
+        if (event.which == 40 && dir2 != 'top' && limit2 == 0) {
+          dir2 = 'bottom';
+          limit2 = 1;
+        }
+      });
+      // AVANCE
+      if (dir1 === 'left') {
+        if (Y1 % 20 == 0) {
+          Y1 += 19;
+        } else {
+          Y1 -= 1;
+        }
+      }
+      if (dir1 === 'right') {
+        if ((Y1 + 1) % 20 == 0) {
+          Y1 -= 19
+        } else {
+          Y1 += 1;
+        }
+      }
+      if (dir1 === 'top') {
+        if (X1 === 0) {
+          X1 += 19;
+        } else {
+          X1 -= 1;
+        }
+      }
+      if (dir1 === 'bottom') {
+        if (X1 === 19) {
+          X1 -= 19;
+        } else {
+          X1 += 1;
+        }
+      }
+      //
+      if (dir2 === 'left') {
+        if (Y2 % 20 == 0) {
+          Y2 += 19;
+        } else {
+          Y2 -= 1;
+        }
+      }
+      if (dir2 === 'right') {
+        if ((Y2 + 1) % 20 == 0) {
+          Y2 -= 19
+        } else {
+          Y2 += 1;
+        }
+      }
+      if (dir2 === 'top') {
+        if (X2 === 0) {
+          X2 += 19;
+        } else {
+          X2 -= 1;
+        }
+      }
+      if (dir2 === 'bottom') {
+        if (X2 === 19) {
+          X2 -= 19;
+        } else {
+          X2 += 1;
+        }
+      }
+      // SAUVEGARDE POSITION ACTUELLE
+      save1.push(tabY[Y1 + X1 * tabX.length]);
+      save2.push(tabY[Y2 + X2 * tabX.length]);
+      // UPDATE POSITION TETE
+      save1[save1.length - 1].classList.add('head1')
+      save2[save2.length - 1].classList.add('head2')
+      // SUPPRIME LE DERNIER BOUT
+      if (save1.length > maxLength1) {
+        save1.shift();
+      }
+      if (save2.length > maxLength2) {
+        save2.shift();
+      }
+      // COLLISION
+      if (game.style.display == "flex") { //Seulement si le jeu est affiché
+        var collisionSelf1 = document.querySelector('.head1.active1');
+        var collisionOpp1 = document.querySelector('.head1.active2');
+        var collisionSelf2 = document.querySelector('.head2.active2');
+        var collisionOpp2 = document.querySelector('.head2.active1');
+        var headtohead = document.querySelector(".head1.head2");
+        if (((collisionSelf1 !== null || collisionOpp1 !== null) && (collisionSelf2 !== null || collisionOpp2 !== null)) || headtohead !== null) {
+          console.log('DRAW');
+          endAnim();
+          winner.style.opacity = "1";
+          winner.textContent = '- draw -';
+          space.style.opacity = "1";
+          window.clearInterval(looping);
+        } else {
+          if (collisionSelf1 !== null) {
+            console.log('J1|J1');
+            endAnim();
+            winner.style.opacity = "1";
+            winner.textContent = '- p2 wins -';
+            winner.style.color = 'cyan';
+            space.style.opacity = "1";
+            window.clearInterval(looping);
+          }
+          if (collisionOpp1 !== null) {
+            console.log('J1|J2');
+            endAnim();
+            winner.style.opacity = "1";
+            winner.textContent = '- p2 wins -';
+            winner.style.color = 'cyan';
+            space.style.opacity = "1";
+            window.clearInterval(looping);
+          }
+          if (collisionSelf2 !== null) {
+            console.log('J2|J2');
+            endAnim();
+            winner.style.opacity = "1";
+            winner.textContent = '- p1 wins -';
+            winner.style.color = 'yellow';
+            space.style.opacity = "1";
+            window.clearInterval(looping);
+          }
+          if (collisionOpp2 !== null) {
+            console.log('J2|J1');
+            endAnim();
+            winner.style.opacity = "1";
+            winner.textContent = '- p1 wins -';
+            winner.style.color = 'yellow';
+            space.style.opacity = "1";
+            window.clearInterval(looping);
+          }
+        }
+      }
+      // MANGER POMME
+      var eat1 = document.querySelector('.head1.pom');
+      if (eat1 !== null) {
+        maxLength1 += 2;
+        eat1.classList.remove('pom');
+        var pomX = Math.floor(Math.random() * 20);
+        var pomY = Math.floor(Math.random() * 20);
+        tabY[pomY + pomX * tabX.length].classList.add('pom');
+      }
+      var eat2 = document.querySelector('.head2.pom');
+      if (eat2 !== null) {
+        maxLength2 += 2;
+        eat2.classList.remove('pom');
+        var pomX = Math.floor(Math.random() * 20);
+        var pomY = Math.floor(Math.random() * 20);
+        tabY[pomY + pomX * tabX.length].classList.add('pom');
+      }
+      // ENLEVE TOUT
+      active1 = document.querySelectorAll('.active1');
+      for (var i = 0; i < active1.length; i++) {
+        active1[i].classList.remove('active1');
+      }
+      active2 = document.querySelectorAll('.active2');
+      for (var i = 0; i < active2.length; i++) {
+        active2[i].classList.remove('active2');
+      }
+      head1 = document.querySelectorAll('.head1');
+      for (var i = 0; i < head1.length; i++) {
+        head1[i].classList.remove('head1');
+      }
+      head2 = document.querySelectorAll('.head2');
+      for (var i = 0; i < head2.length; i++) {
+        head2[i].classList.remove('head2');
+      }
+      // COLORIE LE SERPENT
+      for (var i1 = 0; i1 < save1.length; i1++) {
+        save1[i1].classList.add('active1');
+      }
+      for (var i2 = 0; i2 < save2.length; i2++) {
+        save2[i2].classList.add('active2');
+      }
+    } //fin de la loop
+    var looping = window.setInterval(loop, 100);
+    // PRESS SPACE
+    window.addEventListener('keyup', function(event) { //BOUTON ESPACE!!!
+      if (event.which === 32) {
+        tabX = document.querySelectorAll('.X');
+        tabY = document.querySelectorAll('.Y');
+        active1 = document.querySelectorAll('.active1');
+        X1 = 4;
+        Y1 = 0;
+        save1 = [];
+        maxLength1 = maxLengthBASE;
+        dir1 = 'right';
+        active2 = document.querySelectorAll('.active2');
+        X2 = 15;
+        Y2 = 19;
+        save2 = [];
+        maxLength2 = maxLengthBASE;
+        dir2 = 'left';
+        var pom = document.querySelector('.pom');
+        if (pom !== null) {
+          pom.classList.remove('pom');
+        }
+        pomX = Math.floor(Math.random() * 20);
+        pomY = Math.floor(Math.random() * 20);
+        tabY[pomY + pomX * tabX.length].classList.add('pom');
+        for (var i = 0; i < tabY.length; i++) {
+          tabY[i].style.transitionDuration = '';
+          tabY[i].style.transitionTimingFunction = '';
+          tabY[i].classList.remove('Yend');
+        }
+        winner.style.transitionDuration = '';
+        space.style.transitionDuration = '';
+        window.clearInterval(looping);
+        looping = window.setInterval(loop, 100);
+        //AFFICHAGE!
+        title.style.opacity = "0";
+        winner.style.opacity = "0";
+        winner.style.color = 'white';
+        space.style.opacity = "0";
+        game.style.display = "flex"; // Affiche le jeu
+        //REMISE A ZERO!!!!!!!!!!!!!!
+        active1 = document.querySelectorAll('.active1');
+        for (var i = 0; i < active1.length; i++) {
+          active1[i].classList.remove('active1');
+        }
+        active2 = document.querySelectorAll('.active2');
+        for (var i = 0; i < active2.length; i++) {
+          active2[i].classList.remove('active2');
+        }
+        head1 = document.querySelectorAll('.head1');
+        for (var i = 0; i < head1.length; i++) {
+          head1[i].classList.remove('head1');
+        }
+        head2 = document.querySelectorAll('.head2');
+        for (var i = 0; i < head2.length; i++) {
+          head2[i].classList.remove('head2');
+        }
+      }
+    });
+  </script>
+</body>
+</html>
