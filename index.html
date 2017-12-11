@@ -112,7 +112,7 @@
       display: flex;
       justify-content: space-between;
       height: 100%;
-      width: 35%;
+      width: 45%;
     }
 
     .teamMember {
@@ -164,8 +164,6 @@
       }
     }
     var tabY = document.querySelectorAll('.Y');
-
-    var stopCheat = 0;
 
     // VARIABLES DE DEPART
     var maxLengthBASE = 5; //Taille de départ
@@ -435,7 +433,7 @@
         winner.style.transitionDuration = '';
         space.style.transitionDuration = '';
         window.clearInterval(looping);
-        looping = window.setInterval(loop, 100);
+        looping = window.setInterval(loop, 150);
         //AFFICHAGE!
         title.style.opacity = "0";
         winner.style.opacity = "0";
@@ -468,14 +466,13 @@
           save2[i2].classList.add('active2');
         }
       }
-      stopCheat = 1;
     });
 
     var cheat = document.querySelector('.cheatCode');
     // cheatCode
     // 83 // 65 // 85 // 67 // 73 // 83 // 83 // 69
     var saucisse = 0;
-    window.addEventListener('keyup', function() {
+    window.addEventListener('keyup', function(event) {
       if (saucisse != 8) {
         if (event.which == 83) {
           if (saucisse == 0 || saucisse == 5 || saucisse == 6) {
@@ -510,14 +507,14 @@
         } else if (event.which == 69) {
           if (saucisse == 7) {
             saucisse += 1;
-            game.style.display = "none"
+            game.style.display = 'none';
             cheat.style.opacity = '1';
-            title.style.opacity = "0";
+            title.style.opacity = '0';
             winner.style.opacity = "1";
             winner.textContent = 'cheat code activated';
             winner.style.color = 'red';
-            window.clearInterval(looping);
             space.style.opacity = "1";
+            window.clearInterval(looping);
           } else {
             saucisse = 0;
           }
@@ -525,7 +522,6 @@
           saucisse = 0;
         }
       }
-
     });
   </script>
 </body>
