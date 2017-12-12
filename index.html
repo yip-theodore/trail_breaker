@@ -157,7 +157,7 @@
       snakes = [snake1, snake2]
 
   // Initialisation du jeu (1 fois) ///////////////////////////////////////////
-  var Init = function() {
+  function Init() {
     // Va aller chercher les élémetns dans le HTML ------------------
     title = document.querySelector('.title');
     winner = document.querySelector('.winner');
@@ -185,7 +185,7 @@
   }
 
   // Réinitialise les paramètres de départ (à chaque ESPACE) //////////////////
-  var Reset = function() {
+  function Reset() {
     // Initialisation des serpents ----------------------------------
     for (var i = 0; i < snakes.length; i++) {
       // Pour le serpent 1 ......................
@@ -236,7 +236,7 @@
   }
 
   // Enlève de la page toutes les classes .active_ et .head_ //////////////////
-  var RemoveClasses = function() {
+   function RemoveClasses() {
     snake1.active = document.querySelectorAll('.active1');
     for (var i = 0; i < snake1.active.length; i++) {
       snake1.active[i].classList.remove('active1');
@@ -256,7 +256,7 @@
   }
 
   // Remet `changedDir` à 0 ///////////////////////////////////////////////////
-  var ResetChangedDir = function() {
+  function ResetChangedDir() {
     snake1.changedDir = 0;
     snake2.changedDir = 0;
     // `changedDir` indique si le joueur à déja changé de direction pendant ce tour
@@ -264,7 +264,7 @@
   }
 
   // Bouge les serpents en fonction de leur direction /////////////////////////
-  var MoveSnakes = function() {
+  function MoveSnakes() {
     for (var i = 0; i < snakes.length; i++) {
       switch (snakes[i].dir) {
         // Si `dir` = 'left' ----------------------------------------
@@ -309,7 +309,7 @@
 
   // Met à jour `blocks` qui contient un historique de toutes les positions -
   // - prises par la tête (inférieur à la longueur max du serpent) ////////////
-  var UpdateBloks = function() {
+  function UpdateBloks() {
     for (var i = 0; i < snakes.length; i++) {
       // Met dans `blocks` la position actuelle de la tête ----------
       snakes[i].blocks.push(tabY[snakes[i].Y + snakes[i].X * (tabY.length / tabX.length)]);
@@ -322,7 +322,7 @@
   }
 
   // Ajoute les classes .head_ et .active_ aux divs contenues dans `blocks` ///
-  var AddClasses = function() {
+  function AddClasses() {
     // Pour le serpent 1 --------------------------------------------
     for (var i1 = 0; i1 < snake1.blocks.length; i1++) {
       // Ajoute au dernier bloc (le plus récent) la classe .head1
@@ -345,7 +345,7 @@
   }
 
   // Vérifie si quelqu'un s'est cogné /////////////////////////////////////////
-  var CheckCrash = function() {
+  function CheckCrash() {
     // la classe .active_ est sur chacun des blocs de queue
     // la classe .head_ est sur la tête
     // En regardant s'il exsite des div avec plusieurs classes à la fois -
@@ -389,7 +389,7 @@
   }
 
   // Vérifie si quelqu'un est passé sur une pomme /////////////////////////////
-  var CheckApple = function() {
+  function CheckApple() {
     // Cherche une div ayant à la fois la classe .head_ et .pom
     if (document.querySelector('.head1.pom')) {
       snake1.eat = true
@@ -410,7 +410,7 @@
   }
 
   // Génère une nouvelle pomme ////////////////////////////////////////////////
-  var NewPom = function() {
+  function NewPom() {
     // Supprime dans la page (si elle existe) la classe .pom --------
     pom = document.querySelector('.pom');
     if (document.querySelector('.pom')) {
@@ -424,7 +424,7 @@
   }
 
   // Créer une animation de fin de partie /////////////////////////////////////
-  var EndAnim = function(turn) {
+  function EndAnim(turn) {
     switch (turn) {
       // Pour lancer l'animation ------------------------------------
       case 'on':
@@ -453,7 +453,7 @@
   }
 
   // Modifie (ou pas) la direction du serpent 1 ///////////////////////////////
-  var Events1 = function(key) {
+  function Events1(key) {
     // S'il n'a pas déja changé, et s'il ne va pas dans le sens contraire
     if (snake1.changedDir === 0 && ((key === 81 && snake1.dir !== 'right') || (key === 68 && snake1.dir !== 'left') || (key === 90 && snake1.dir !== 'bottom') || (key === 83 && snake1.dir !== 'top'))) {
       // Change la direction ....................
@@ -469,7 +469,7 @@
   }
 
   // Modifie (ou pas) la direction du serpent 2 ///////////////////////////////
-  var Events2 = function(key) {
+  function Events2(key) {
     if (snake2.changedDir === 0 && ((key === 37 && snake2.dir !== 'right') || (key === 39 && snake2.dir !== 'left') || (key === 38 && snake2.dir !== 'bottom') || (key === 40 && snake2.dir !== 'top'))) {
       switch (key) {
         case 37: snake2.dir = 'left'; break;
