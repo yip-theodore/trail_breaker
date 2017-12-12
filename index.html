@@ -30,24 +30,32 @@
       background-color: #2a2a2a;
       border-radius: 5px;
       margin: 8px;
-      transition: all .1s ease-out;
+      transition: all .15s ease-out;
     }
     /* - - - - - C A R R É S - A L L U M É S - - */
     .active1,
     .active2,
+    .head1,
+    .head2,
     .pom {
       width: 22px;
       height: 22px;
       margin: 4px;
     }
     /* - - - - - C O U L E U R S - - - - - - - - */
-    .active1 {
+    .active1,
+    .head1 {
       background: yellow;
     }
-    .active2 {
+    .active2,
+    .head2 {
       background: cyan;
     }
-    .active1.active2 {
+    .head1.active1,
+    .head1.active2,
+    .head2.active2,
+    .head2.active1,
+    .head1.head2 {
       background-color: #fff;
     }
     .pom {
@@ -103,88 +111,337 @@
 
 <!-- //////////////////////////////////////////////////////////////////////// -->
 
-  <script type="text/javascript">
-    var title, winner, pressSpace, game, gridWidth, gridHeight, tabX, tabY,
-        active1, X1, Y1, snake1, maxLength1, dir1,
-        active2, X2, Y2, snake2, maxLength2, dir2,
-        pomX, pomY, maxLengthDefault, changedDir1, changedDir2,
-        looping
+<script type="text/javascript">
 
-    var Init = function() {
-      title = document.querySelector('.title');
-      winner = document.querySelector('.winner');
-      pressSpace = document.querySelector('.pressSpace');
-      game = document.querySelector('.game');
+  Init()
 
-      gridWidth = 10;
-      gridHeight = 10;
+  window.addEventListener('keyup', function(event) {
+    switch (event.which) {
 
-      for (var i = 0; i < gridHeight; i++) {
-        game.innerHTML += "<div class='X'></div>";
-      }
-      tabX = document.querySelectorAll('.X');
+      case 32: Reset()
 
-      for (var i = 0; i < tabX.length; i++) {
-        for (var i2 = 0; i2 < gridWidth; i2++) {
-          tabX[i].innerHTML += "<div class='Y'></div>";
-        }
-      }
-      tabY = document.querySelectorAll('.Y');
+      case 81:
+      case 68:
+      case 90:
+      case 83: Events1(event.which);
+
+      case 37:
+      case 39:
+      case 38:
+      case 40: Events2(event.which);
     }
-    Init()
+  });
 
+  var loop = function() {
 
-    var Reset = function() {
-      maxLengthDefault = 5; //Taille de départ
+    RemoveClasses()
 
-      active1 = document.querySelectorAll('.active1');
-      X1 = 4;
-      Y1 = 0;
-      snake1 = [tabY[Y1 + X1 * (tabY.length / tabX.length)]];
-      maxLength1 = maxLengthDefault;
-      dir1 = 'right';
+    ResetChangedDir()
 
-      active2 = document.querySelectorAll('.active2');
-      X2 = tabX.length - 5;
-      Y2 = (tabY.length / tabX.length) - 1;
-      snake2 = [tabY[Y2 + X2 * (tabY.length / tabX.length)]];
-      maxLength2 = maxLengthDefault;
-      dir2 = 'left';
+    MoveSnakes()
 
-      var pom = document.querySelector('.pom');
-      if (pom !== null) {
-        pom.classList.remove('pom');
-      }
-      pomX = Math.floor(Math.random() * tabX.length);
-      pomY = Math.floor(Math.random() * (tabY.length / tabX.length));
-      tabY[pomY + pomX * tabX.length].classList.add('pom');
+    UpdateBloks()
 
-      title.style.opacity = "0";
-      winner.style.opacity = "0";
-      winner.style.color = 'white';
-      pressSpace.style.opacity = "0";
-      game.style.display = "flex"; // Affiche le jeu
+    AddClasses()
 
-      EndAnim('off')
+    CheckCrash()
 
-      RemoveClasses()
+    CheckApple()
+  }
 
+  // On définit des variables globales, qu'on utilisera plus tard /////////////
+  var title, winner, pressSpace, game, gridWidth, gridHeight, tabX, tabY,
+      pom, pomX, pomY, maxLengthDefault, looping,
+      snake1 = new Object(),
+      snake2 = new Object(),
+      snakes = [snake1, snake2]
 
+  // Initialisation du jeu (1 fois) ///////////////////////////////////////////
+  var Init = function() {
+    // Va aller chercher les élémetns dans le HTML ------------------
+    title = document.querySelector('.title');
+    winner = document.querySelector('.winner');
+    pressSpace = document.querySelector('.pressSpace');
+    game = document.querySelector('.game');
+    // hauteur et largeur de la grille ------------------------------
+    gridWidth = 10;
+    gridHeight = 10;
+    // Créer les rangées --------------------------------------------
+    for (var i = 0; i < gridHeight; i++) {
+      game.innerHTML += "<div class='X'></div>";
     }
+    // Met dans `tabY` les rangées de cases .....
+    tabX = document.querySelectorAll('.X');
+    // Créer les cases dans les rangées -----------------------------
+    for (var i = 0; i < tabX.length; i++) {
+      for (var i2 = 0; i2 < gridWidth; i2++) {
+        tabX[i].innerHTML += "<div class='Y'></div>";
+      }
+    }
+    // Met dans `tabY` la totalité des cases ....
+    tabY = document.querySelectorAll('.Y');
+    // Définit la longueur de départ des serpents -------------------
+    maxLengthDefault = 5;
+  }
 
+  // Réinitialise les paramètres de départ (à chaque ESPACE) //////////////////
+  var Reset = function() {
+    // Initialisation des serpents ----------------------------------
+    for (var i = 0; i < snakes.length; i++) {
+      // Pour le serpent 1 ......................
+      if (snakes[i] === snake1) {
+        // Met dans `active` les éléments HTML ayant la classe .active1
+        snakes[i].active = document.querySelectorAll('.active1');
+        // Met dans `X` et `Y` les coordonnées de départ
+        snakes[i].X = 4;
+        snakes[i].Y = 0;
+        // Met dans `dir` la direction de départ
+        snakes[i].dir = 'right';
+      } // Pour le serpent 2 ....................
+      else {
+        // Met dans `active` les éléments HTML ayant la classe .active2
+        snakes[i].active = document.querySelectorAll('.active2');
+        // Met dans `X` et `Y` les coordonnées de départ
+        snake2.X = tabX.length - 5;
+        snake2.Y = (tabY.length / tabX.length) - 1;
+        // Met dans `dir` la direction de départ
+        snakes[i].dir = 'left';
+      }
+      // Pour les deux serpents .................
+      // Met dans `blocks` la position actuelle dans `tabY` de la tête
+      snakes[i].blocks = [tabY[snakes[i].Y + snakes[i].X * (tabY.length / tabX.length)]];
+      // Met dans `maxLength` la longueur de départ
+      snakes[i].maxLength = maxLengthDefault;
+      snakes[i].crashSelf = false
+      snakes[i].crashOpp = false
+    }
+    // Modifie le CSS -----------------------------------------------
+    // Cache le texte ...........................
+    title.style.opacity = "0";
+    winner.style.opacity = "0";
+    winner.style.color = 'white';
+    pressSpace.style.opacity = "0";
+    // Affiche le jeu ...........................
+    game.style.display = "flex";
+    // Génére une nouvelle pomme ------------------------------------
+    NewPom()
+    // Enlève l'animation de fin de partie --------------------------
+    EndAnim('off')
+    // Supprime dans la page les classes .active et .head -----------
+    ResetChangedDir()
+    RemoveClasses()
+    AddClasses()
+    window.clearInterval(looping);
+    looping = window.setInterval(loop, 150);
+  }
 
-    var EndAnim = function(turn) {
-      if (turn === 'on') {
+  // Enlève de la page toutes les classes .active_ et .head_ //////////////////
+  var RemoveClasses = function() {
+    snake1.active = document.querySelectorAll('.active1');
+    for (var i = 0; i < snake1.active.length; i++) {
+      snake1.active[i].classList.remove('active1');
+    }
+    snake2.active = document.querySelectorAll('.active2');
+    for (var i = 0; i < snake2.active.length; i++) {
+      snake2.active[i].classList.remove('active2');
+    } // --------------------------------------------------------------
+    snake1.head = document.querySelectorAll('.head1');
+    for (var i = 0; i < snake1.head.length; i++) {
+      snake1.head[i].classList.remove('head1');
+    }
+    snake2.head = document.querySelectorAll('.head2');
+    for (var i = 0; i < snake2.head.length; i++) {
+      snake2.head[i].classList.remove('head2');
+    }
+  }
+
+  // Remet `changedDir` à 0 ///////////////////////////////////////////////////
+  var ResetChangedDir = function() {
+    snake1.changedDir = 0;
+    snake2.changedDir = 0;
+    // `changedDir` indique si le joueur à déja changé de direction pendant ce tour
+    // 0 = non / 1 = oui
+  }
+
+  // Bouge les serpents en fonction de leur direction /////////////////////////
+  var MoveSnakes = function() {
+    for (var i = 0; i < snakes.length; i++) {
+      switch (snakes[i].dir) {
+        // Si `dir` = 'left' ----------------------------------------
+        case 'left':
+          // S'il est au bord gauche de la zone de jeu
+          if (snakes[i].Y % (tabY.length / tabX.length) == 0) {
+            // Il réapparait de l'autre côté
+            snakes[i].Y += (tabY.length / tabX.length) - 1;
+          }
+          // Dans la plupart de cas .............
+          else {
+            // Il avance d'une case vers la gauche
+            snakes[i].Y -= 1;
+          }
+          break;
+        // ----------------------------------------------------------
+        case 'right':
+          if ((snakes[i].Y + 1) % (tabY.length / tabX.length) == 0) {
+            snakes[i].Y -= (tabY.length / tabX.length) - 1;
+          } else {
+            snakes[i].Y += 1;
+          }
+          break;
+        // ----------------------------------------------------------
+        case 'top':
+          if (snakes[i].X === 0) {
+            snakes[i].X += tabX.length - 1;
+          } else {
+            snakes[i].X -= 1;
+          }
+          break;
+        // ----------------------------------------------------------
+        case 'bottom':
+          if (snakes[i].X === tabX.length - 1) {
+            snakes[i].X -= tabX.length - 1;
+          } else {
+            snakes[i].X += 1;
+          }
+      }
+    }
+  }
+
+  // Met à jour `blocks` qui contient un historique de toutes les positions -
+  // - prises par la tête (inférieur à la longueur max du serpent) ////////////
+  var UpdateBloks = function() {
+    for (var i = 0; i < snakes.length; i++) {
+      // Met dans `blocks` la position actuelle de la tête ----------
+      snakes[i].blocks.push(tabY[snakes[i].Y + snakes[i].X * (tabY.length / tabX.length)]);
+      // Supprime de `blocks` la première (la plus ancienne) lorsque -
+      // - la longueur de `blocks` > la longueur max autorisée -------
+      if (snakes[i].blocks.length > snakes[i].maxLength) {
+        snakes[i].blocks.shift();
+      }
+    }
+  }
+
+  // Ajoute les classes .head_ et .active_ aux divs contenues dans `blocks` ///
+  var AddClasses = function() {
+    // Pour le serpent 1 --------------------------------------------
+    for (var i1 = 0; i1 < snake1.blocks.length; i1++) {
+      // Ajoute au dernier bloc (le plus récent) la classe .head1
+      if (snake1.blocks[i1] === snake1.blocks[snake1.blocks.length - 1]) {
+        snake1.blocks[snake1.blocks.length - 1].classList.add('head1')
+      }
+      // Ajoute à tous les autres la classe .active1
+      else{
+        snake1.blocks[i1].classList.add('active1');
+      }
+    }
+    // Pour le serpent 2 --------------------------------------------
+    for (var i1 = 0; i1 < snake2.blocks.length; i1++) {
+      if (snake2.blocks[i1] === snake2.blocks[snake2.blocks.length - 1]) {
+        snake2.blocks[snake2.blocks.length - 1].classList.add('head2')
+      } else {
+        snake2.blocks[i1].classList.add('active2');
+      }
+    }
+  }
+
+  // Vérifie si quelqu'un s'est cogné /////////////////////////////////////////
+  var CheckCrash = function() {
+    // la classe .active_ est sur chacun des blocs de queue
+    // la classe .head_ est sur la tête
+    // En regardant s'il exsite des div avec plusieurs classes à la fois -
+    // on sait qui s'est cogné à quoi
+    if (document.querySelector('.head1.active1')) {
+      snake1.crashSelf = true
+    } else if (document.querySelector('.head1.active2')) {
+      snake1.crashOpp = true
+    }
+    if (document.querySelector('.head2.active2')) {
+      snake2.crashSelf = true
+    } else if (document.querySelector('.head2.active1')) {
+      snake2.crashOpp = true
+    }
+    if (document.querySelector(".head1.head2")) {
+      snake1.crashOpp = true
+      snake2.crashOpp = true
+    }
+    // Si quelqu'un s'est cogné -------------------------------------
+    if (snake1.crashSelf || snake1.crashOpp || snake2.crashSelf || snake2.crashOpp) {
+      // Soit il y a égalité ....................
+      if ((snake1.crashSelf || snake1.crashOpp) && (snake2.crashSelf || snake2.crashOpp)) {
+        winner.textContent = '- DRAW -';
+      } // Soit le joueur 2 gagne ...............
+      else if (snake1.crashSelf || snake1.crashOpp) {
+        winner.textContent = '- P2 WINS -';
+        winner.style.color = 'cyan';
+      } // Soit le joueur 1 gagne ...............
+      else if (snake2.crashSelf || snake2.crashOpp) {
+        winner.textContent = '- P1 WINS -';
+        winner.style.color = 'yellow';
+      }
+      // Active l'animation .....................
+      EndAnim('on');
+      // Affiche le texte .......................
+      winner.style.opacity = "1";
+      pressSpace.style.opacity = "1";
+      // Arrête le jeu ----------------------------------------------
+      window.clearInterval(looping);
+    }
+  }
+
+  // Vérifie si quelqu'un est passé sur une pomme /////////////////////////////
+  var CheckApple = function() {
+    // Cherche une div ayant à la fois la classe .head_ et .pom
+    if (document.querySelector('.head1.pom')) {
+      snake1.eat = true
+    } else if (document.querySelector('.head2.pom')){
+      snake2.eat = true
+    }
+    for (var i = 0; i < snakes.length; i++) {
+      // Si le serpent a mangé une pomme ------------------------------
+      if (snakes[i].eat) {
+        // Sa longueur max augmente de 2 ........
+        snakes[i].maxLength += 2
+        // Réinitialise la clé `eat` ............
+        snakes[i].eat = false
+        // Créer une nouvelle pomme .............
+        NewPom()
+      }
+    }
+  }
+
+  // Génère une nouvelle pomme ////////////////////////////////////////////////
+  var NewPom = function() {
+    // Supprime dans la page (si elle existe) la classe .pom --------
+    pom = document.querySelector('.pom');
+    if (document.querySelector('.pom')) {
+      pom.classList.remove('pom');
+    }
+    // Génère aléatoirement les coordonnées de la nouvelle pomme ----
+    pomX = Math.floor(Math.random() * tabX.length);
+    pomY = Math.floor(Math.random() * (tabY.length / tabX.length));
+    // Ajoute la classe .pom à l'élément correspondant dans `tabY` --
+    tabY[pomY + pomX * tabX.length].classList.add('pom');
+  }
+
+  // Créer une animation de fin de partie /////////////////////////////////////
+  var EndAnim = function(turn) {
+    switch (turn) {
+      // Pour lancer l'animation ------------------------------------
+      case 'on':
+        // Ajoute un style transition à chacune des cases
         for (var i = 0; i < tabY.length; i++) {
           tabY[i].style.transitionDuration = '.5s';
           tabY[i].style.transitionTimingFunction = 'ease-in-out';
+          // Ajoute la classe .Ynone (c'est les carrés en tout petit)
           tabY[i].classList.add('Ynone');
         }
-        document.querySelector('.pom').classList.remove('pom');
+        // Modifie la durée d'apparition du texte
         winner.style.transitionDuration = '1.5s';
         pressSpace.style.transitionDuration = '1.5s';
-      }
-      else {
+        break;
+      // Pour réinitialiser le CSS ----------------------------------
+      case 'off':
+        // Remet tout bien ......................
         for (var i = 0; i < tabY.length; i++) {
           tabY[i].style.transitionDuration = '';
           tabY[i].style.transitionTimingFunction = '';
@@ -192,274 +449,38 @@
         }
         winner.style.transitionDuration = '';
         pressSpace.style.transitionDuration = '';
-      }
-    };
-
-
-
-    var ResetChangedDir = function() {
-      changedDir1 = 0;
-      changedDir2 = 0;
     }
+  }
 
-    var Events1 = function() {
-      window.addEventListener('keyup', function(event) {
-        if (event.which == 81 && dir1 != 'right' && changedDir1 == 0) {
-          dir1 = 'left';
-          changedDir1 = 1;
-        }
-        if (event.which == 68 && dir1 != 'left' && changedDir1 == 0) {
-          dir1 = 'right';
-          changedDir1 = 1;
-        }
-        if (event.which == 90 && dir1 != 'bottom' && changedDir1 == 0) {
-          dir1 = 'top';
-          changedDir1 = 1;
-        }
-        if (event.which == 83 && dir1 != 'top' && changedDir1 == 0) {
-          dir1 = 'bottom';
-          changedDir1 = 1;
-        }
-      });
+  // Modifie (ou pas) la direction du serpent 1 ///////////////////////////////
+  var Events1 = function(key) {
+    // S'il n'a pas déja changé, et s'il ne va pas dans le sens contraire
+    if (snake1.changedDir === 0 && ((key === 81 && snake1.dir !== 'right') || (key === 68 && snake1.dir !== 'left') || (key === 90 && snake1.dir !== 'bottom') || (key === 83 && snake1.dir !== 'top'))) {
+      // Change la direction ....................
+      switch (key) {
+        case 81: snake1.dir = 'left'; break;
+        case 68: snake1.dir = 'right'; break;
+        case 90: snake1.dir = 'top'; break;
+        case 83: snake1.dir = 'bottom'; break;
+      }
+      // Il ne peut plus rechanger avant le prochain tour
+      snake1.changedDir = 1;
     }
+  }
 
-    var Events2 = function() {
-      window.addEventListener('keyup', function(event) {
-        if (event.which == 37 && dir2 != 'right' && changedDir2 == 0) {
-          dir2 = 'left';
-          changedDir2 = 1;
-        }
-        if (event.which == 39 && dir2 != 'left' && changedDir2 == 0) {
-          dir2 = 'right';
-          changedDir2 = 1;
-        }
-        if (event.which == 38 && dir2 != 'bottom' && changedDir2 == 0) {
-          dir2 = 'top';
-          changedDir2 = 1;
-        }
-        if (event.which == 40 && dir2 != 'top' && changedDir2 == 0) {
-          dir2 = 'bottom';
-          changedDir2 = 1;
-        }
-      });
+  // Modifie (ou pas) la direction du serpent 2 ///////////////////////////////
+  var Events2 = function(key) {
+    if (snake2.changedDir === 0 && ((key === 37 && snake2.dir !== 'right') || (key === 39 && snake2.dir !== 'left') || (key === 38 && snake2.dir !== 'bottom') || (key === 40 && snake2.dir !== 'top'))) {
+      switch (key) {
+        case 37: snake2.dir = 'left'; break;
+        case 39: snake2.dir = 'right'; break;
+        case 38: snake2.dir = 'top'; break;
+        case 40: snake2.dir = 'bottom'; break;
+      }
+      snake2.changedDir = 1;
     }
+  }
 
-    var Move1 = function() {
-      if (dir1 === 'left') {
-        if (Y1 % (tabY.length / tabX.length) == 0) {
-          Y1 += (tabY.length / tabX.length) - 1;
-        } else {
-          Y1 -= 1;
-        }
-      }
-      if (dir1 === 'right') {
-        if ((Y1 + 1) % (tabY.length / tabX.length) == 0) {
-          Y1 -= (tabY.length / tabX.length) - 1;
-        } else {
-          Y1 += 1;
-        }
-      }
-      if (dir1 === 'top') {
-        if (X1 === 0) {
-          X1 += tabX.length - 1;
-        } else {
-          X1 -= 1;
-        }
-      }
-      if (dir1 === 'bottom') {
-        if (X1 === tabX.length - 1) {
-          X1 -= tabX.length - 1;
-        } else {
-          X1 += 1;
-        }
-      }
-    }
-
-    var Move2 = function() {
-      if (dir2 === 'left') {
-        if (Y2 % (tabY.length / tabX.length) == 0) {
-          Y2 += (tabY.length / tabX.length) - 1;
-        } else {
-          Y2 -= 1;
-        }
-      }
-      if (dir2 === 'right') {
-        if ((Y2 + 1) % (tabY.length / tabX.length) == 0) {
-          Y2 -= (tabY.length / tabX.length) - 1;
-        } else {
-          Y2 += 1;
-        }
-      }
-      if (dir2 === 'top') {
-        if (X2 === 0) {
-          X2 += tabX.length - 1;
-        } else {
-          X2 -= 1;
-        }
-      }
-      if (dir2 === 'bottom') {
-        if (X2 === tabX.length - 1) {
-          X2 -= tabX.length - 1;
-        } else {
-          X2 += 1;
-        }
-      }
-    }
-
-    var UpdateSnake = function() {
-      // SAUVEGARDE POSITION ACTUELLE
-      snake1.push(tabY[Y1 + X1 * (tabY.length / tabX.length)]);
-      snake2.push(tabY[Y2 + X2 * (tabY.length / tabX.length)]);
-      // CHANGE POSITION TETE
-      snake1[snake1.length - 1].classList.add('head1')
-      snake2[snake2.length - 1].classList.add('head2')
-      // SUPPRIME LE DERNIER BOUT
-      if (snake1.length > maxLength1) {
-        snake1.shift();
-      }
-      if (snake2.length > maxLength2) {
-        snake2.shift();
-      }
-    }
-
-    var CheckCollide = function() {
-      var collisionSelf1 = document.querySelector('.head1.active1');
-      var collisionOpp1 = document.querySelector('.head1.active2');
-      var collisionSelf2 = document.querySelector('.head2.active2');
-      var collisionOpp2 = document.querySelector('.head2.active1');
-      var headtohead = document.querySelector(".head1.head2");
-      if (((collisionSelf1 !== null || collisionOpp1 !== null) && (collisionSelf2 !== null || collisionOpp2 !== null)) || headtohead !== null) {
-        console.log('DRAW');
-        EndAnim('on');
-        winner.style.opacity = "1";
-        winner.textContent = '- draw -';
-        pressSpace.style.opacity = "1";
-        window.clearInterval(looping);
-      } else {
-        if (collisionSelf1 !== null) {
-          console.log('J1|J1');
-          EndAnim('on');
-          winner.style.opacity = "1";
-          winner.textContent = '- p2 wins -';
-          winner.style.color = 'cyan';
-          pressSpace.style.opacity = "1";
-          window.clearInterval(looping);
-        }
-        if (collisionOpp1 !== null) {
-          console.log('J1|J2');
-          EndAnim('on');
-          winner.style.opacity = "1";
-          winner.textContent = '- p2 wins -';
-          winner.style.color = 'cyan';
-          pressSpace.style.opacity = "1";
-          window.clearInterval(looping);
-        }
-        if (collisionSelf2 !== null) {
-          console.log('J2|J2');
-          EndAnim('on');
-          winner.style.opacity = "1";
-          winner.textContent = '- p1 wins -';
-          winner.style.color = 'yellow';
-          pressSpace.style.opacity = "1";
-          window.clearInterval(looping);
-        }
-        if (collisionOpp2 !== null) {
-          console.log('J2|J1');
-          EndAnim('on');
-          winner.style.opacity = "1";
-          winner.textContent = '- p1 wins -';
-          winner.style.color = 'yellow';
-          pressSpace.style.opacity = "1";
-          window.clearInterval(looping);
-        }
-      }
-    }
-
-    CheckApple1 = function() {
-      var eat1 = document.querySelector('.head1.pom');
-      if (eat1 !== null) {
-        maxLength1 += 2;
-        eat1.classList.remove('pom');
-        var pomX = Math.floor(Math.random() * tabX.length);
-        var pomY = Math.floor(Math.random() * (tabY.length / tabX.length));
-        tabY[pomY + pomX * tabX.length].classList.add('pom');
-      }
-    }
-    CheckApple2 = function() {
-      var eat2 = document.querySelector('.head2.pom');
-      if (eat2 !== null) {
-        maxLength2 += 2;
-        eat2.classList.remove('pom');
-        var pomX = Math.floor(Math.random() * tabX.length);
-        var pomY = Math.floor(Math.random() * (tabY.length / tabX.length));
-        tabY[pomY + pomX * tabX.length].classList.add('pom');
-      }
-    }
-
-    var RemoveClasses = function() {
-      active1 = document.querySelectorAll('.active1');
-      for (var i = 0; i < active1.length; i++) {
-        active1[i].classList.remove('active1');
-      }
-      active2 = document.querySelectorAll('.active2');
-      for (var i = 0; i < active2.length; i++) {
-        active2[i].classList.remove('active2');
-      }
-      head1 = document.querySelectorAll('.head1');
-      for (var i = 0; i < head1.length; i++) {
-        head1[i].classList.remove('head1');
-      }
-      head2 = document.querySelectorAll('.head2');
-      for (var i = 0; i < head2.length; i++) {
-        head2[i].classList.remove('head2');
-      }
-    }
-
-    var DispSnakes = function() {
-      for (var i1 = 0; i1 < snake1.length; i1++) {
-        snake1[i1].classList.add('active1');
-      }
-      for (var i2 = 0; i2 < snake2.length; i2++) {
-        snake2[i2].classList.add('active2');
-      }
-    }
-
-    var loop = function() {
-
-      ResetChangedDir()
-
-      Events1()
-      Events2()
-
-      Move1()
-      Move2()
-
-      UpdateSnake()
-
-      CheckCollide()
-
-      CheckApple1()
-      CheckApple2()
-
-      RemoveClasses()
-
-      DispSnakes()
-    }
-
-
-    // PRESS SPACE
-
-    window.addEventListener('keyup', function(event) { //BOUTON ESPACE!!!
-      if (event.which === 32) {
-
-        Reset()
-
-        window.clearInterval(looping);
-        looping = window.setInterval(loop, 100);
-
-        DispSnakes()
-      }
-    });
   </script>
 </body>
 
