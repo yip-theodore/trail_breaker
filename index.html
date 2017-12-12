@@ -164,8 +164,8 @@
     pressSpace = document.querySelector('.pressSpace');
     game = document.querySelector('.game');
     // hauteur et largeur de la grille ------------------------------
-    gridWidth = 10;
-    gridHeight = 10;
+    gridWidth = 25;
+    gridHeight = 25;
     // Créer les rangées --------------------------------------------
     for (var i = 0; i < gridHeight; i++) {
       game.innerHTML += "<div class='X'></div>";
@@ -327,17 +327,24 @@
     for (var i1 = 0; i1 < snake1.blocks.length; i1++) {
       // Ajoute au dernier bloc (le plus récent) la classe .head1
       if (snake1.blocks[i1] === snake1.blocks[snake1.blocks.length - 1]) {
-        snake1.blocks[snake1.blocks.length - 1].classList.add('head1')
-      }
+        if (snake1.blocks[i1].classList.contains('head1')) {
+          snake1.blocks[i1].classList.add('active1');
+        } else {
+          snake1.blocks[i1].classList.add('head1')
+        }
       // Ajoute à tous les autres la classe .active1
-      else{
+      } else{
         snake1.blocks[i1].classList.add('active1');
       }
     }
     // Pour le serpent 2 --------------------------------------------
     for (var i1 = 0; i1 < snake2.blocks.length; i1++) {
       if (snake2.blocks[i1] === snake2.blocks[snake2.blocks.length - 1]) {
-        snake2.blocks[snake2.blocks.length - 1].classList.add('head2')
+        if (snake2.blocks[i1].classList.contains('head2')) {
+          snake2.blocks[i1].classList.add('active2');
+        } else {
+          snake2.blocks[i1].classList.add('head2')
+        }
       } else {
         snake2.blocks[i1].classList.add('active2');
       }
@@ -379,7 +386,7 @@
         winner.style.color = 'yellow';
       }
       // Active l'animation .....................
-      EndAnim('on');
+      window.setTimeout(EndAnim, 300);
       // Affiche le texte .......................
       winner.style.opacity = "1";
       pressSpace.style.opacity = "1";
@@ -425,6 +432,9 @@
 
   // Créer une animation de fin de partie /////////////////////////////////////
   function EndAnim(turn) {
+    if (!turn) {
+      turn = 'on'
+    }
     switch (turn) {
       // Pour lancer l'animation ------------------------------------
       case 'on':
