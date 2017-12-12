@@ -17,6 +17,6 @@ We had a whole night to create a Brick game, using only native javascript.
 * Quentin: https://github.com/unneqit
 * Mahel: https://github.com/M00NBOY
 * Théodore: https://github.com/yip-theodore
-* Christella: *link*  
+* Christella: https://github.com/altesyrk  
 
 and Xavier.

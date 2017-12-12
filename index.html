@@ -98,6 +98,27 @@
       top: 60vh;
       color: #aaa;
     }
+    .cheatcode {
+      position: absolute;
+      top: 20px;
+      left: 0;
+      height: 50px;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    .gifContainer {
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      height: 100%;
+      width: 45%;
+    }
+
+    .teamMember {
+      height: 100%;
+    }
   </style>
 </head>
 
@@ -109,13 +130,26 @@
 
   <div class="game"></div>
 
+  <!-- cheat -->
+  <div class="cheatCode">
+    <div class="gifContainer">
+      <img src="img/valentine.gif" alt="valentine" class="teamMember">
+      <img src="img/quentin.gif" alt="quentin" class="teamMember">
+      <img src="img/nicolas.gif" alt="nicolas" class="teamMember">
+      <img src="img/theodore.gif" alt="theodore" class="teamMember">
+      <img src="img/son.gif" alt="son" class="teamMember">
+      <img src="img/mahel.gif" alt="mahel" class="teamMember">
+      <img src="img/christella.gif" alt="christella" class="teamMember">
+    </div>
+  </div>
+
 <!-- //////////////////////////////////////////////////////////////////////// -->
 
 <script type="text/javascript">
   Init()
   window.addEventListener('keyup', function(event) {
     switch (event.which) {
-      case 32: Reset()
+      case 32: if (pause=='') {Reset()} else if (pause=='off') {Pause()} else {Unpause()}
       case 81:
       case 68:
       case 90:
@@ -125,6 +159,7 @@
       case 38:
       case 40: Events2(event.which);
     }
+    cheatCodeActivation();
   });
   var loop = function() {
     RemoveClasses()
@@ -141,9 +176,10 @@
       snake1 = new Object(),
       snake2 = new Object(),
       snakes = [snake1, snake2]
+      pause=''
   // Initialisation du jeu (1 fois) ///////////////////////////////////////////
   function Init() {
-    // Va aller chercher les élémetns dans le HTML ------------------
+    // Va aller chercher les éléments dans le HTML ------------------
     title = document.querySelector('.title');
     winner = document.querySelector('.winner');
     pressSpace = document.querySelector('.pressSpace');
@@ -217,7 +253,26 @@
     AddClasses()
     window.clearInterval(looping);
     looping = window.setInterval(loop, 150);
+    pause= 'off';  //permet la FONCTION Pause()
   }
+
+  //Entre en PAUSE quand on appuie sur Espace pendant la partie
+  function Pause() {
+    pause = 'on';  //permet la FONCTION Unpause()
+    window.clearInterval(looping);
+    winner.style.opacity = "1";
+    winner.textContent = 'PAUSE';
+    winner.style.color = '#fff';
+    pressSpace.style.opacity = "1";
+  }
+  //Sort de la pause quand on appuie sur Espace
+  function Unpause() {
+    pause = 'off';  //permet la FONCTION Pause ()
+    looping = window.setInterval(loop, 150);
+    winner.style.opacity = "0";
+    pressSpace.style.opacity = "0";
+  }
+
   // Enlève de la page toutes les classes .active_ et .head_ //////////////////
    function RemoveClasses() {
     snake1.active = document.querySelectorAll('.active1');
@@ -370,6 +425,7 @@
       pressSpace.style.opacity = "1";
       // Arrête le jeu ----------------------------------------------
       window.clearInterval(looping);
+      pause=''; //empêche la FONCTION Pause
     }
   }
   // Vérifie si quelqu'un est passé sur une pomme /////////////////////////////
@@ -461,6 +517,33 @@
         case 40: snake2.dir = 'bottom'; break;
       }
       snake2.changedDir = 1;
+    }
+  }
+
+  // CHEAT CODE ///////////////////////////////////////////////////////////////
+  var cheat = document.querySelector('.cheatCode');
+  var saucisse = 0;
+  var cheatCodeActivation = function() {
+    if (saucisse != 8) {
+      switch (event.which) {
+        case 83: if (saucisse==0 || saucisse==5 || saucisse==6) {saucisse++; break;} else {saucisse=0;}
+        case 65: if (saucisse==1) {saucisse++; break;} else {saucisse=0;}
+        case 85: if (saucisse==2) {saucisse++; break;} else {saucisse=0;}
+        case 67: if (saucisse==3) {saucisse++; break;} else {saucisse=0;}
+        case 73: if (saucisse==4) {saucisse++; break;} else {saucisse=0;}
+        case 69: if (saucisse==7) {saucisse++;
+          game.style.display = 'none';
+          cheat.style.opacity = '1';
+          title.style.opacity = '0';
+          winner.style.opacity = "1";
+          winner.textContent = 'cheat code activated';
+          winner.style.color = 'red';
+          pressSpace.style.opacity = "1";
+          pause = '';
+          window.clearInterval(looping);
+          break;} else {saucisse=0;}
+        default: saucisse=0;
+      }
     }
   }
   </script>
