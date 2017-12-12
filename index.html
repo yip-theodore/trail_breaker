@@ -98,6 +98,27 @@
       top: 60vh;
       color: #aaa;
     }
+    .cheatcode {
+      position: absolute;
+      top: 20px;
+      left: 0;
+      height: 50px;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    .gifContainer {
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      height: 100%;
+      width: 45%;
+    }
+
+    .teamMember {
+      height: 100%;
+    }
   </style>
 </head>
 
@@ -109,56 +130,56 @@
 
   <div class="game"></div>
 
+  <!-- cheat -->
+  <div class="cheatCode">
+    <div class="gifContainer">
+      <img src="img/valentine.gif" alt="valentine" class="teamMember">
+      <img src="img/quentin.gif" alt="quentin" class="teamMember">
+      <img src="img/nicolas.gif" alt="nicolas" class="teamMember">
+      <img src="img/theodore.gif" alt="theodore" class="teamMember">
+      <img src="img/son.gif" alt="son" class="teamMember">
+      <img src="img/mahel.gif" alt="mahel" class="teamMember">
+      <img src="img/christella.gif" alt="christella" class="teamMember">
+    </div>
+  </div>
+
 <!-- //////////////////////////////////////////////////////////////////////// -->
 
 <script type="text/javascript">
-
   Init()
-
   window.addEventListener('keyup', function(event) {
     switch (event.which) {
-
-      case 32: Reset()
-
+      case 32: if (pause=='') {Reset()} else if (pause=='off') {Pause()} else {Unpause()}
       case 81:
       case 68:
       case 90:
       case 83: Events1(event.which);
-
       case 37:
       case 39:
       case 38:
       case 40: Events2(event.which);
     }
+    cheatCodeActivation();
   });
-
   var loop = function() {
-
     RemoveClasses()
-
     ResetChangedDir()
-
     MoveSnakes()
-
     UpdateBloks()
-
     AddClasses()
-
     CheckCrash()
-
     CheckApple()
   }
-
   // On définit des variables globales, qu'on utilisera plus tard /////////////
   var title, winner, pressSpace, game, gridWidth, gridHeight, tabX, tabY,
       pom, pomX, pomY, maxLengthDefault, looping,
       snake1 = new Object(),
       snake2 = new Object(),
       snakes = [snake1, snake2]
-
+      pause=''
   // Initialisation du jeu (1 fois) ///////////////////////////////////////////
   function Init() {
-    // Va aller chercher les élémetns dans le HTML ------------------
+    // Va aller chercher les éléments dans le HTML ------------------
     title = document.querySelector('.title');
     winner = document.querySelector('.winner');
     pressSpace = document.querySelector('.pressSpace');
@@ -183,7 +204,6 @@
     // Définit la longueur de départ des serpents -------------------
     maxLengthDefault = 5;
   }
-
   // Réinitialise les paramètres de départ (à chaque ESPACE) //////////////////
   function Reset() {
     // Initialisation des serpents ----------------------------------
@@ -233,6 +253,24 @@
     AddClasses()
     window.clearInterval(looping);
     looping = window.setInterval(loop, 150);
+    pause= 'off';  //permet la FONCTION Pause()
+  }
+
+  //Entre en PAUSE quand on appuie sur Espace pendant la partie
+  function Pause() {
+    pause = 'on';  //permet la FONCTION Unpause()
+    window.clearInterval(looping);
+    winner.style.opacity = "1";
+    winner.textContent = 'PAUSE';
+    winner.style.color = '#fff';
+    pressSpace.style.opacity = "1";
+  }
+  //Sort de la pause quand on appuie sur Espace
+  function Unpause() {
+    pause = 'off';  //permet la FONCTION Pause ()
+    looping = window.setInterval(loop, 150);
+    winner.style.opacity = "0";
+    pressSpace.style.opacity = "0";
   }
 
   // Enlève de la page toutes les classes .active_ et .head_ //////////////////
@@ -254,7 +292,6 @@
       snake2.head[i].classList.remove('head2');
     }
   }
-
   // Remet `changedDir` à 0 ///////////////////////////////////////////////////
   function ResetChangedDir() {
     snake1.changedDir = 0;
@@ -262,7 +299,6 @@
     // `changedDir` indique si le joueur à déja changé de direction pendant ce tour
     // 0 = non / 1 = oui
   }
-
   // Bouge les serpents en fonction de leur direction /////////////////////////
   function MoveSnakes() {
     for (var i = 0; i < snakes.length; i++) {
@@ -306,7 +342,6 @@
       }
     }
   }
-
   // Met à jour `blocks` qui contient un historique de toutes les positions -
   // - prises par la tête (inférieur à la longueur max du serpent) ////////////
   function UpdateBloks() {
@@ -320,7 +355,6 @@
       }
     }
   }
-
   // Ajoute les classes .head_ et .active_ aux divs contenues dans `blocks` ///
   function AddClasses() {
     // Pour le serpent 1 --------------------------------------------
@@ -350,7 +384,6 @@
       }
     }
   }
-
   // Vérifie si quelqu'un s'est cogné /////////////////////////////////////////
   function CheckCrash() {
     // la classe .active_ est sur chacun des blocs de queue
@@ -392,9 +425,9 @@
       pressSpace.style.opacity = "1";
       // Arrête le jeu ----------------------------------------------
       window.clearInterval(looping);
+      pause=''; //empêche la FONCTION Pause
     }
   }
-
   // Vérifie si quelqu'un est passé sur une pomme /////////////////////////////
   function CheckApple() {
     // Cherche une div ayant à la fois la classe .head_ et .pom
@@ -415,7 +448,6 @@
       }
     }
   }
-
   // Génère une nouvelle pomme ////////////////////////////////////////////////
   function NewPom() {
     // Supprime dans la page (si elle existe) la classe .pom --------
@@ -429,7 +461,6 @@
     // Ajoute la classe .pom à l'élément correspondant dans `tabY` --
     tabY[pomY + pomX * tabX.length].classList.add('pom');
   }
-
   // Créer une animation de fin de partie /////////////////////////////////////
   function EndAnim(turn) {
     if (!turn) {
@@ -461,7 +492,6 @@
         pressSpace.style.transitionDuration = '';
     }
   }
-
   // Modifie (ou pas) la direction du serpent 1 ///////////////////////////////
   function Events1(key) {
     // S'il n'a pas déja changé, et s'il ne va pas dans le sens contraire
@@ -477,7 +507,6 @@
       snake1.changedDir = 1;
     }
   }
-
   // Modifie (ou pas) la direction du serpent 2 ///////////////////////////////
   function Events2(key) {
     if (snake2.changedDir === 0 && ((key === 37 && snake2.dir !== 'right') || (key === 39 && snake2.dir !== 'left') || (key === 38 && snake2.dir !== 'bottom') || (key === 40 && snake2.dir !== 'top'))) {
@@ -491,6 +520,32 @@
     }
   }
 
+  // CHEAT CODE ///////////////////////////////////////////////////////////////
+  var cheat = document.querySelector('.cheatCode');
+  var saucisse = 0;
+  var cheatCodeActivation = function() {
+    if (saucisse != 8) {
+      switch (event.which) {
+        case 83: if (saucisse==0 || saucisse==5 || saucisse==6) {saucisse++; break;} else {saucisse=0;}
+        case 65: if (saucisse==1) {saucisse++; break;} else {saucisse=0;}
+        case 85: if (saucisse==2) {saucisse++; break;} else {saucisse=0;}
+        case 67: if (saucisse==3) {saucisse++; break;} else {saucisse=0;}
+        case 73: if (saucisse==4) {saucisse++; break;} else {saucisse=0;}
+        case 69: if (saucisse==7) {saucisse++;
+          game.style.display = 'none';
+          cheat.style.opacity = '1';
+          title.style.opacity = '0';
+          winner.style.opacity = "1";
+          winner.textContent = 'cheat code activated';
+          winner.style.color = 'red';
+          pressSpace.style.opacity = "1";
+          pause = '';
+          window.clearInterval(looping);
+          break;} else {saucisse=0;}
+        default: saucisse=0;
+      }
+    }
+  }
   </script>
 </body>
 
