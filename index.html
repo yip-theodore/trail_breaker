@@ -30,7 +30,7 @@
       background-color: #2a2a2a;
       border-radius: 5px;
       margin: 8px;
-      transition: all .15s ease-out;
+      transition: all .1s ease-out;
     }
     /* - - - - - C A R R É S - A L L U M É S - - */
     .active1,
@@ -77,26 +77,30 @@
       align-items: center;
     }
     /* - - - - - L E - T E X T E - - - - - - - - */
-    .title,
-    .winner,
-    .pressSpace {
+    .title1,
+    .title2,
+    .h1,
+    .h2 {
       position: absolute;
       right: 0;
       left: 0;
-      transition: all .25s ease-in-out;
-    }
-    .title {
-      opacity: 1;
-      top: 30vh;
-    }
-    .winner {
       opacity: 0;
+      transition: all .2s ease-out;
+    }
+    .title1 {
+      top: calc(30vh - 20px);
+    }
+    .title2,
+    .h1 {
       top: 30vh;
     }
-    .pressSpace {
-      opacity: 1;
+    .h2 {
       top: 60vh;
-      color: #aaa;
+      color: #888;
+    }
+    .translateY {
+      opacity: 1;
+      transform: translateY(-10px);
     }
     .cheatcode {
       position: absolute;
@@ -107,7 +111,6 @@
       opacity: 0;
       transition: opacity 2s ease;
     }
-
     .gifContainer {
       margin: auto;
       display: flex;
@@ -115,7 +118,6 @@
       height: 100%;
       width: 45%;
     }
-
     .teamMember {
       height: 100%;
     }
@@ -124,9 +126,10 @@
 
 <body class="body">
 
-  <p class="title">TRAIL<br>BREAKER</p>
-  <p class="winner"></p>
-  <p class="pressSpace">PRESS SPACE</p>
+  <p class="title1">TRAIL</p>
+  <p class="title2">BREAKER</p>
+  <p class="h1"></p>
+  <p class="h2">PRESS SPACE</p>
 
   <div class="game"></div>
 
@@ -146,21 +149,27 @@
 <!-- //////////////////////////////////////////////////////////////////////// -->
 
 <script type="text/javascript">
+
   Init()
-  window.addEventListener('keyup', function(event) {
-    switch (event.which) {
-      case 32: if (pause=='') {Reset()} else if (pause=='off') {Pause()} else {Unpause()}
-      case 81:
-      case 68:
-      case 90:
-      case 83: Events1(event.which);
-      case 37:
-      case 39:
-      case 38:
-      case 40: Events2(event.which);
-    }
-    cheatCodeActivation();
-  });
+  TextShow([title1, title2, h2])
+
+  window.setTimeout(function() {
+    window.addEventListener('keyup', function(event) {
+      switch (event.which) {
+        case 32: if (pause=='') {Reset()} else if (pause=='off') {Pause()} else {Unpause()}
+        case 81:
+        case 68:
+        case 90:
+        case 83: Events1(event.which);
+        case 37:
+        case 39:
+        case 38:
+        case 40: Events2(event.which);
+      }
+      cheatCodeActivation();
+    });
+  }, 800)
+
   var loop = function() {
     RemoveClasses()
     ResetChangedDir()
@@ -171,7 +180,7 @@
     CheckApple()
   }
   // On définit des variables globales, qu'on utilisera plus tard /////////////
-  var title, winner, pressSpace, game, gridWidth, gridHeight, tabX, tabY,
+  var title1, title2, h1, h2, game, gridWidth, gridHeight, tabX, tabY,
       pom, pomX, pomY, maxLengthDefault, looping,
       snake1 = new Object(),
       snake2 = new Object(),
@@ -180,9 +189,10 @@
   // Initialisation du jeu (1 fois) ///////////////////////////////////////////
   function Init() {
     // Va aller chercher les éléments dans le HTML ------------------
-    title = document.querySelector('.title');
-    winner = document.querySelector('.winner');
-    pressSpace = document.querySelector('.pressSpace');
+    title1 = document.querySelector('.title1');
+    title2 = document.querySelector('.title2');
+    h1 = document.querySelector('.h1');
+    h2 = document.querySelector('.h2');
     game = document.querySelector('.game');
     // hauteur et largeur de la grille ------------------------------
     gridWidth = 25;
@@ -202,7 +212,7 @@
     // Met dans `tabY` la totalité des cases ....
     tabY = document.querySelectorAll('.Y');
     // Définit la longueur de départ des serpents -------------------
-    maxLengthDefault = 5;
+    maxLengthDefault = 6;
   }
   // Réinitialise les paramètres de départ (à chaque ESPACE) //////////////////
   function Reset() {
@@ -213,7 +223,7 @@
         // Met dans `active` les éléments HTML ayant la classe .active1
         snakes[i].active = document.querySelectorAll('.active1');
         // Met dans `X` et `Y` les coordonnées de départ
-        snakes[i].X = 4;
+        snakes[i].X = Math.floor((tabX.length/2))-1;
         snakes[i].Y = 0;
         // Met dans `dir` la direction de départ
         snakes[i].dir = 'right';
@@ -222,7 +232,7 @@
         // Met dans `active` les éléments HTML ayant la classe .active2
         snakes[i].active = document.querySelectorAll('.active2');
         // Met dans `X` et `Y` les coordonnées de départ
-        snake2.X = tabX.length - 5;
+        snake2.X = Math.floor((tabX.length/2))+1;
         snake2.Y = (tabY.length / tabX.length) - 1;
         // Met dans `dir` la direction de départ
         snakes[i].dir = 'left';
@@ -237,10 +247,8 @@
     }
     // Modifie le CSS -----------------------------------------------
     // Cache le texte ...........................
-    title.style.opacity = "0";
-    winner.style.opacity = "0";
-    winner.style.color = 'white';
-    pressSpace.style.opacity = "0";
+    h1.style.color = 'white';
+    TextHide([title1, title2, h1, h2])
     // Affiche le jeu ...........................
     game.style.display = "flex";
     // Génére une nouvelle pomme ------------------------------------
@@ -252,7 +260,7 @@
     RemoveClasses()
     AddClasses()
     window.clearInterval(looping);
-    looping = window.setInterval(loop, 150);
+    looping = window.setInterval(loop, 125);
     pause= 'off';  //permet la FONCTION Pause()
   }
 
@@ -260,17 +268,15 @@
   function Pause() {
     pause = 'on';  //permet la FONCTION Unpause()
     window.clearInterval(looping);
-    winner.style.opacity = "1";
-    winner.textContent = 'PAUSE';
-    winner.style.color = '#fff';
-    pressSpace.style.opacity = "1";
+    h1.textContent = 'PAUSE';
+    h1.style.color = 'white';
+    TextShow([h1, h2])
   }
   //Sort de la pause quand on appuie sur Espace
   function Unpause() {
     pause = 'off';  //permet la FONCTION Pause ()
-    looping = window.setInterval(loop, 150);
-    winner.style.opacity = "0";
-    pressSpace.style.opacity = "0";
+    looping = window.setInterval(loop, 125);
+    TextHide([h1, h2])
   }
 
   // Enlève de la page toutes les classes .active_ et .head_ //////////////////
@@ -408,21 +414,22 @@
     if (snake1.crashSelf || snake1.crashOpp || snake2.crashSelf || snake2.crashOpp) {
       // Soit il y a égalité ....................
       if ((snake1.crashSelf || snake1.crashOpp) && (snake2.crashSelf || snake2.crashOpp)) {
-        winner.textContent = '- DRAW -';
+        h1.textContent = '- DRAW -';
       } // Soit le joueur 2 gagne ...............
       else if (snake1.crashSelf || snake1.crashOpp) {
-        winner.textContent = '- P2 WINS -';
-        winner.style.color = 'cyan';
+        h1.textContent = '- P2 WINS -';
+        h1.style.color = 'cyan';
       } // Soit le joueur 1 gagne ...............
       else if (snake2.crashSelf || snake2.crashOpp) {
-        winner.textContent = '- P1 WINS -';
-        winner.style.color = 'yellow';
+        h1.textContent = '- P1 WINS -';
+        h1.style.color = 'yellow';
       }
       // Active l'animation .....................
-      window.setTimeout(EndAnim, 300);
+      window.setTimeout(EndAnim, 400);
       // Affiche le texte .......................
-      winner.style.opacity = "1";
-      pressSpace.style.opacity = "1";
+      window.setTimeout(function() {
+        TextShow([h1, h2])
+      }, 1000)
       // Arrête le jeu ----------------------------------------------
       window.clearInterval(looping);
       pause=''; //empêche la FONCTION Pause
@@ -471,14 +478,11 @@
       case 'on':
         // Ajoute un style transition à chacune des cases
         for (var i = 0; i < tabY.length; i++) {
-          tabY[i].style.transitionDuration = '.5s';
+          tabY[i].style.transitionDuration = '.6s';
           tabY[i].style.transitionTimingFunction = 'ease-in-out';
           // Ajoute la classe .Ynone (c'est les carrés en tout petit)
           tabY[i].classList.add('Ynone');
         }
-        // Modifie la durée d'apparition du texte
-        winner.style.transitionDuration = '1.5s';
-        pressSpace.style.transitionDuration = '1.5s';
         break;
       // Pour réinitialiser le CSS ----------------------------------
       case 'off':
@@ -488,8 +492,8 @@
           tabY[i].style.transitionTimingFunction = '';
           tabY[i].classList.remove('Ynone');
         }
-        winner.style.transitionDuration = '';
-        pressSpace.style.transitionDuration = '';
+        h1.style.transitionDuration = '';
+        h2.style.transitionDuration = '';
     }
   }
   // Modifie (ou pas) la direction du serpent 1 ///////////////////////////////
@@ -534,11 +538,10 @@
         case 69: if (saucisse==7) {saucisse++;
           game.style.display = 'none';
           cheat.style.opacity = '1';
-          title.style.opacity = '0';
-          winner.style.opacity = "1";
-          winner.textContent = 'cheat code activated';
-          winner.style.color = 'red';
-          pressSpace.style.opacity = "1";
+          h1.textContent = 'CHEAT CODE ACTIVATED';
+          h1.style.color = 'red';
+          TextHide([title1, title2])
+          TextShow([h1])
           pause = '';
           window.clearInterval(looping);
           break;} else {saucisse=0;}
@@ -546,6 +549,38 @@
       }
     }
   }
+
+  // Ajoute ou enlève la classe .translateY ///////////////////////////////////
+  function TextTranlate(text, mode) {
+    switch (mode) {
+      case 'on':
+        text.style.transitionDuration = '.5s'
+        text.classList.add('translateY')
+        break
+      case 'off':
+        text.style.transitionDuration = ''
+        text.classList.remove('translateY')
+    }
+  }
+
+  // Fait apparaître du texte (les uns après les autres) //////////////////////
+  function TextShow(texts) {
+    var counter = 200
+    for (let i = 0; i < texts.length; i++) {
+      window.setTimeout(function() {
+        TextTranlate(texts[i], 'on')
+      }, counter)
+      counter += 200
+    }
+  }
+
+  // Cache du texte (d'un coup) ///////////////////////////////////////////////
+  function TextHide(texts) {
+    for (var i = 0; i < texts.length; i++) {
+      TextTranlate(texts[i], 'off')
+    }
+  }
+
   </script>
 </body>
 
