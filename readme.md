@@ -20,3 +20,4 @@ We had a whole night to create a Brick game, using only native javascript.
 * Christella: https://github.com/altesyrk  
 
 and Xavier.
+ 
