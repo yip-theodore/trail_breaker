@@ -5,8 +5,8 @@
 This was made for a one-night project, with
 [Vincent](https://github.com/ShonhTan),
 [Valentine](https://github.com/Vlry),
-[Nicolas](https://github.com/WebFaker),
 [Quentin](https://github.com/unneqit),
+[Nicolas](https://github.com/WebFaker),
 [Mahel](https://github.com/M00NBOY),
 [Christella](https://github.com/christellaL),
 and Xavier.

@@ -154,7 +154,7 @@
   TextShow([title1, title2, h2])
 
   window.setTimeout(function() {
-    window.addEventListener('keyup', function(event) {
+    window.addEventListener('keydown', function(event) {
       switch (event.which) {
         case 32: if (pause=='') {Reset()} else if (pause=='off') {Pause()} else {Unpause()}
         case 81:
